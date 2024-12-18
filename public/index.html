@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>htmx Event Triggering</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css"
+    />
+    <script src="https://unpkg.com/htmx.org@2.0.0"></script>
+  </head>
+  <body
+    hx-on:event1="handleEvent1(event)"
+    hx-on:event2="handleEvent2(event)"
+    hx-on:event3="handleEvent3(event)"
+  >
+    <div class="container mt-5">
+      <button class="button" hx-get="/event-with-no-data" hx-target="#content">
+        Event w/ no data
+      </button>
+      <button class="button" hx-get="/event-with-string" hx-target="#content">
+        Event w/ string
+      </button>
+      <button class="button" hx-get="/event-with-object" hx-target="#content">
+        Event w/ object
+      </button>
+      <div id="content"></div>
+    </div>
+    <script>
+      function handleEvent1(event) {
+        const { value } = event.detail;
+        alert("got event1 with " + value);
+      }
+
+      function handleEvent2(event) {
+        const { detail } = event;
+        delete detail.elt;
+        alert("got event2 with " + JSON.stringify(detail));
+      }
+
+      function handleEvent3(event) {
+        const { detail } = event;
+        // detail.elt holds a reference to the element that
+        // triggered the request. JSON.stringify encouters a
+        // circular reference if that is included, so we remove it
+        delete detail.elt;
+        alert("got event3 with " + JSON.stringify(detail));
+      }
+    </script>
+  </body>
+</html>

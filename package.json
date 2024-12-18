@@ -1,7 +1,7 @@
 {
   "name": "htmx-event-triggering",
   "scripts": {
-    "dev": "bun run --hot src/index.ts"
+    "dev": "bun run --hot src/serve.ts"
   },
   "dependencies": {
     "hono": "^4.6.14"
